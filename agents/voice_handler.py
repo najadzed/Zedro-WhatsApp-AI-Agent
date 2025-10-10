@@ -28,9 +28,9 @@ async def handle_voice_note(media_url: str) -> str:
             tmp_file = f.name
             print(f"💾 Saved audio to temporary file: {tmp_file}")
 
-        # Transcribe using Gemini 1.5
+        # Transcribe using Gemini 1.5 (Flash is free-tier friendly)
         print("🎯 Starting transcription with Gemini 1.5...")
-        model = genai.GenerativeModel("gemini-1.5-pro")
+        model = genai.GenerativeModel("gemini-1.5-flash")
         with open(tmp_file, "rb") as f:
             audio = {"mime_type": "audio/mp3", "data": f.read()}
         response = model.generate_content([
