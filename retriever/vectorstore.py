@@ -12,7 +12,7 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Initialize Gemini embeddings
 embedding = GoogleGenerativeAIEmbeddings(
-    model="text-embedding-004",
+    model="models/text-embedding-004",
     google_api_key=GEMINI_API_KEY
 )
 
