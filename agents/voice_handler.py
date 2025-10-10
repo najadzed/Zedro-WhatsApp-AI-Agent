@@ -1,16 +1,16 @@
 import aiohttp
 import tempfile
-from openai import OpenAI
+import google.generativeai as genai
 from dotenv import load_dotenv
 import os
 
 # Load environment variables from .env file
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 async def handle_voice_note(media_url: str) -> str:
-    """Download voice note from Twilio, transcribe with OpenAI Whisper"""
+    """Download voice note from Twilio, transcribe with Gemini 1.5"""
     try:
         print(f"🎤 Downloading voice note from: {media_url}")
         
@@ -28,15 +28,15 @@ async def handle_voice_note(media_url: str) -> str:
             tmp_file = f.name
             print(f"💾 Saved audio to temporary file: {tmp_file}")
 
-        # Transcribe using OpenAI Whisper
-        print("🎯 Starting transcription with OpenAI Whisper...")
-        audio_file = open(tmp_file, "rb")
-        transcription = client.audio.transcriptions.create(
-            model="whisper-1",
-            file=audio_file,
-            language="auto"  # Auto-detect language
-        )
-        audio_file.close()
+        # Transcribe using Gemini 1.5
+        print("🎯 Starting transcription with Gemini 1.5...")
+        model = genai.GenerativeModel("gemini-1.5-pro")
+        with open(tmp_file, "rb") as f:
+            audio = {"mime_type": "audio/mp3", "data": f.read()}
+        response = model.generate_content([
+            audio,
+            {"text": "Transcribe this audio. Detect and use the spoken language."}
+        ])
         
         # Clean up temporary file
         import os
@@ -46,8 +46,9 @@ async def handle_voice_note(media_url: str) -> str:
         except:
             pass
             
-        print(f"✅ Transcription completed: {transcription.text}")
-        return transcription.text
+        text = getattr(response, "text", None) or getattr(response, "candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+        print(f"✅ Transcription completed: {text}")
+        return text or ""
         
     except Exception as e:
         print(f"❌ Error processing voice note: {e}")

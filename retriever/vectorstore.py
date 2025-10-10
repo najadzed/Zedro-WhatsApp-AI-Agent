@@ -1,17 +1,20 @@
 # retriever/vectorstore.py
 from langchain_chroma import Chroma
-from langchain_openai import OpenAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from dotenv import load_dotenv
 import os
 
 # Load environment variables from .env file
 load_dotenv()
 
-# Make sure your OPENAI_API_KEY is set in .env
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+# Make sure your GEMINI_API_KEY is set in .env
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-# Initialize OpenAI embeddings
-embedding = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+# Initialize Gemini embeddings
+embedding = GoogleGenerativeAIEmbeddings(
+    model="text-embedding-004",
+    google_api_key=GEMINI_API_KEY
+)
 
 # Initialize Chroma vector store
 db = Chroma(

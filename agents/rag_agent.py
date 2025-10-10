@@ -1,4 +1,4 @@
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.runnable import RunnableMap
 from retriever.vectorstore import retriever
@@ -21,10 +21,10 @@ Question:
 {question}
 """)
 
-llm = ChatOpenAI(
-    model="gpt-4-turbo",
+llm = ChatGoogleGenerativeAI(
+    model="gemini-1.5-pro",
     temperature=0.3,
-    openai_api_key=os.getenv("OPENAI_API_KEY")
+    api_key=os.getenv("GEMINI_API_KEY")
 )
 
 rag_pipeline = (
