@@ -22,7 +22,7 @@ Question:
 """)
 
 llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
+    model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash-8b"),
     temperature=0.3,
     api_key=os.getenv("GEMINI_API_KEY")
 )
