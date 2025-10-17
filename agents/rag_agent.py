@@ -28,7 +28,7 @@ Question:
 try:
     print("🚀 Using Gemini model...")
     llm = ChatGoogleGenerativeAI(
-        model=os.getenv("GEMINI_MODEL", "gemini-2"),
+        model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
         temperature=0.3,
         api_key=os.getenv("GEMINI_API_KEY")
     )
