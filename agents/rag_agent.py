@@ -6,10 +6,8 @@ from retriever.vectorstore import retriever
 from dotenv import load_dotenv
 import os
 
-# Load environment variables
 load_dotenv()
 
-# Prompt Template
 prompt = ChatPromptTemplate.from_template("""
 You are Zedro — a multilingual WhatsApp AI assistant created by Najad.
 Answer naturally and concisely in the same language the user writes.
@@ -24,23 +22,27 @@ Question:
 {question}
 """)
 
-# Choose model dynamically (Gemini preferred)
 use_gemini = os.getenv("USE_GEMINI", "true").lower() == "true"
 
-if use_gemini:
-    llm = ChatGoogleGenerativeAI(
-        model=os.getenv("GEMINI_MODEL", "gemini-2-flash"),
-        temperature=0.3,
-        api_key=os.getenv("GEMINI_API_KEY")
-    )
-else:
+try:
+    if use_gemini:
+        llm = ChatGoogleGenerativeAI(
+            model=os.getenv("GEMINI_MODEL", "gemini-1.5-flash"),
+            temperature=0.3,
+            api_key=os.getenv("GEMINI_API_KEY")
+        )
+        print("✅ Using Gemini model")
+    else:
+        raise ValueError("USE_GEMINI is false, switching to OpenAI")
+
+except Exception as e:
+    print(f"⚠ Gemini init failed: {e}\n➡ Switching to OpenAI instead.")
     llm = ChatOpenAI(
         model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
         temperature=0.3,
         api_key=os.getenv("OPENAI_API_KEY")
     )
 
-# RAG pipeline
 rag_pipeline = (
     RunnableMap({
         "context": lambda x: retriever.invoke(x["query"]),
