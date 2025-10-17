@@ -1,14 +1,23 @@
 fastapi==0.118.2
 uvicorn==0.37.0
 python-dotenv==1.1.1
+
+# LangChain Core & Ecosystem
 langchain==0.3.27
-langchain-google-genai==2.0.0
-langchain-chroma==0.2.6
-langchain-community==0.3.31
 langchain-core==0.3.78
+langchain-community==0.3.31
 langchain-text-splitters==0.3.11
+langchain-chroma==0.2.6
+
+# LLM Integrations
+langchain-google-genai==2.0.0
+langchain-openai==0.3.4      # ✅ corrected name (was missing version / underscore)
 google-generativeai==0.7.2
+
+# Vector Database
 chromadb==1.1.1
+
+# Web & WhatsApp Integration
 twilio==9.8.3
 aiohttp==3.13.0
 python-multipart==0.0.20
