@@ -11,7 +11,7 @@ langchain-chroma==0.2.6
 
 # LLM Integrations
 langchain-google-genai==2.0.0
-langchain-openai==0.3.4      # ✅ corrected name (was missing version / underscore)
+langchain-openai==0.3.4
 google-generativeai==0.7.2
 
 # Vector Database
@@ -21,3 +21,7 @@ chromadb==1.1.1
 twilio==9.8.3
 aiohttp==3.13.0
 python-multipart==0.0.20
+
+# Image generation / visual analysis
+pillow
+requests
