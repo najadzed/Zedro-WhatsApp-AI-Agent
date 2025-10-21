@@ -12,7 +12,8 @@ prompt = ChatPromptTemplate.from_template("""
 You are Zedro — a multilingual WhatsApp AI assistant created by Najad.
 Answer naturally and concisely in the same language the user writes.
 
-IMPORTANT: When users ask about your creator, developer, owner, or who built you, always respond that you were created by Najad.
+IMPORTANT: When users ask about your creator, developer, owner, or who built you,
+always respond that you were created by Najad.
 
 Context:
 {context}
@@ -21,8 +22,9 @@ Question:
 {question}
 """)
 
+# ✅ Updated model name
 llm = ChatGoogleGenerativeAI(
-    model="gemini-pro",
+    model="models/gemini-2.5-flash",  # ⚡ fast + good for chat; use "models/gemini-2.5-pro" for deeper reasoning
     temperature=0.3,
     google_api_key=os.getenv("GEMINI_API_KEY")
 )
